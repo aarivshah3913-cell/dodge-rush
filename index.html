@@ -637,7 +637,31 @@
             + '</span>'
             + '</div>';
         }
-        leaderboardList.innerHTML = html;
+        const allHtml = html;
+
+const rows = allHtml.split('</div>');
+
+if(rows.length > 10){
+  const firstTen = rows.slice(0, 10).join('</div>') + '</div>';
+
+  leaderboardList.innerHTML = firstTen;
+
+  const seeMoreBtn = document.createElement('button');
+  seeMoreBtn.className = 'btn';
+  seeMoreBtn.textContent = 'See More';
+
+  seeMoreBtn.onclick = function(){
+    leaderboardList.innerHTML = allHtml;
+    seeMoreBtn.remove();
+  };
+
+  leaderboardList.parentNode.insertBefore(
+    seeMoreBtn,
+    leaderboardList.nextSibling
+  );
+} else {
+  leaderboardList.innerHTML = allHtml;
+}
       }
     }catch(e){
       console.error('Leaderboard load failed:', e);
